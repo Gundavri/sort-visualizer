@@ -32,6 +32,10 @@ body {
     cursor: pointer;
 }
 
+.clickable h1:hover {
+    color: grey;
+}
+
 .separator {
 }
 
@@ -54,10 +58,13 @@ body {
 
 /* wrapper styles */
 /* ##################### */
-.wrapper {
-    width: 100%;
-    height: 91%;
+#wrapper {
+    margin: auto;
+    width: 60%;
+    height: 90%;
     background-color: red;
+    display: flex;
+    justify-content: center;
 }
 
 

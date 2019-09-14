@@ -15,7 +15,7 @@
             <h1>Generate New Array!</h1>
         </div>
 
-        <div class="toolbarElem" id="stopElem">
+        <div class="toolbarElem clickable" id="stopElem" onclick="stopClicked()">
             <h1>STOP</h1>
         </div>
 
@@ -23,12 +23,12 @@
 
         <div class="toolbarElem">
             <h1 id="changeSizeText">Change Array Size</h1>
-            <input type="range" min="5" max="200" value="25" id="sizeInput">
+            <input type="range" min="5" max="150" id="sizeInput" oninput="sizeChanged(this.value)">
         </div>
 
         <div class="toolbarElem">
             <h1 id="changeSpeedText">Change Sorting Speed</h1>
-            <input type="range" min="1" max="100" value="50" id="speedInput">
+            <input type="range" min="1" max="100" value="50" id="speedInput" oninput="speedChanged(this.value)">
         </div>
 
         <div class="separator"></div>
@@ -37,7 +37,7 @@
             <h1>Selection Sort</h1>
         </div>
 
-        <div class="toolbarElem clickable">
+        <div class="toolbarElem clickable" onclick="insertionSortClicked()">
             <h1>Insertion Sort</h1>
         </div>
 
@@ -58,8 +58,11 @@
         </div>
     </div>
 
-    <div class="wrapper">
-
+    <div id="wrapper">
+        
     </div>
 </body>
+
+<script src="./script.js"></script>
+
 </html>
