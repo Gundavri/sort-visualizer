@@ -61,12 +61,6 @@ function removeChildElements(){
     }
 }
 
-function swapChildElements(a, b){
-    if(a>=0 && b>=0 && a<wrapper.childNodes.length && b<wrapper.childNodes.length){
-        wrapper.childNodes[a].style.order = b;
-        wrapper.childNodes[b].style.order = a;
-    }
-}
 
 sizeInput.value = INITIAL_SIZE_VALUE.toString();
 speedInput.value = INITIAL_SPEED_VALUE.toString();
@@ -84,7 +78,9 @@ function insertionSortClicked() {
         let temp = arr[i];
         let j = i - 1;
         while (j >= 0 && arr[j] > temp) {
+            let t = arr[j+1];
             arr[j + 1] = arr[j]
+            arr[j] = t;
             j--;
         }
         arr[j + 1] = temp;
