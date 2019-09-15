@@ -38,7 +38,7 @@ function generateClicked(){
 
 function changeElementsAmount(ar){
     removeChildElements();
-    for(let i=0; i<arr.length; i++){
+    for(let i=0; i<ar.length; i++){
         let elem = document.createElement('div');
 //  Setting styles to columns
         elem.style.width = (100/(ar.length*2)).toString() + '%';
@@ -99,6 +99,44 @@ function getChangedElements(arr1, arr2){
     return res;
 }
 
+function mergeSort(ar){
+    if(ar.length <= 1) return ar;
+
+    let index = Math.floor(ar.length/2);
+
+    let leftArr = ar.slice(0, index);
+    let rightArr = ar.slice(index);
+
+    return merge(mergeSort(leftArr), mergeSort(rightArr)); 
+}
+
+function merge(arr1, arr2){
+    let res = [];
+    let i = 0, j = 0;
+
+    while(i<arr1.length && j<arr2.length){
+        if(arr1[i] < arr2[j]){
+            res.push(arr1[i]);
+            i++;
+        } else{
+            res.push(arr2[j]);
+            j++;
+        }
+    }
+
+    while(i<arr1.length){
+        res.push(arr1[i]);
+        i++;
+    }
+
+    while(j<arr2.length){
+        res.push(arr2[j]);
+        j++;
+    }
+
+    return res;
+}
+
 // SORT FUNCTIONS
 // ########################
 function selectionSortClicked(){
@@ -147,3 +185,7 @@ function insertionSortClicked(){
     }, k*timeInterval);
 }
 
+function mergeSortClicked(){
+    arr = mergeSort(arr);
+    changeElementsAmount(arr);
+}
