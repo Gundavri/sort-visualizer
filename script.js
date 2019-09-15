@@ -32,6 +32,10 @@ function speedChanged(value){
     console.log(timeInterval);
 }
 
+function generateClicked(){
+    sizeChanged(arr.length);
+}
+
 function changeElementsAmount(ar){
     removeChildElements();
     for(let i=0; i<arr.length; i++){
