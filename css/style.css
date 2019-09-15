@@ -39,9 +39,6 @@ body {
 .separator {
 }
 
-#stopElem h1 {
-    color: red;
-}
 
 #changeSizeText, #changeSpeedText {
     margin-right: 8px;
@@ -62,7 +59,7 @@ body {
     margin: auto;
     width: 60%;
     height: 90%;
-    background-color: red;
+    /* background-color: red; */
     display: flex;
     justify-content: center;
 }

@@ -28,7 +28,7 @@ function sizeChanged(value){
 }
 
 function speedChanged(value){
-    timeInterval = (20 - value) * TIME_DELAY;
+    timeInterval = (21 - value) * TIME_DELAY;
     console.log(timeInterval);
 }
 
@@ -42,7 +42,7 @@ function changeElementsAmount(ar){
         let elem = document.createElement('div');
 //  Setting styles to columns
         elem.style.width = (100/(ar.length*2)).toString() + '%';
-        elem.style.height = (ar[i]*2.5 + 17).toString() + 'px';
+        elem.style.height = (ar[i]*2.5 + 22).toString() + 'px';
         elem.style.backgroundColor = 'black';
         elem.style.margin = '1px';
         elem.style.order = i.toString();
@@ -67,21 +67,10 @@ function removeChildElements(){
     }
 }
 
-function swapChildElements(a, b){
-    wrapper.childNodes[a].style.order = b;
-    wrapper.childNodes[b].style.order = a;
-}
-
-
 sizeInput.value = INITIAL_SIZE_VALUE.toString();
 speedInput.value = INITIAL_SPEED_VALUE.toString();
 sizeChanged(INITIAL_SIZE_VALUE);
 speedChanged(INITIAL_SPEED_VALUE);
-
-
-function stopClicked() {
-    console.log('stop');
-}
 
 
 function insertionSortClicked() {
@@ -99,13 +88,28 @@ function insertionSortClicked() {
         }
         arr[j + 1] = temp;
     }
+    setTimeout(function(){
+        changeElementsAmount(arr);
+    }, (k+1)*timeInterval);
+}
+
+function doSetTimeout(k, [...ar]){
+    setTimeout(function(){
+        let swappedElems = getChangedElements(prevArr, ar);
+        console.log(swappedElems);
+        prevArr = ar;
+        changeElementsAmount(ar);
+        wrapper.childNodes[swappedElems[0]].style.backgroundColor = 'red';
+    }, k*timeInterval);
+
 }
 
 
-function doSetTimeout(k, [...ar], a, b){
-    setTimeout(function(){
-        console.log(prevArr);
-        console.log(ar);
-        changeElementsAmount(ar);
-    }, k*timeInterval);
+
+function getChangedElements(arr1, arr2){
+    let res = [];
+    for(let i=0; i<arr1.length; i++){
+        if(arr1[i]!=arr2[i]) res.push(i);
+    }
+    return res;
 }
