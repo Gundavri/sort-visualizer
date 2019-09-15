@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="toolbar">
-        <div class="toolbarElem clickable">
+        <div class="toolbarElem clickable" onclick="changeElementsAmount()">
             <h1>Generate New Array!</h1>
         </div>
 
@@ -28,7 +28,7 @@
 
         <div class="toolbarElem">
             <h1 id="changeSpeedText">Change Sorting Speed</h1>
-            <input type="range" min="1" max="100" value="50" id="speedInput" oninput="speedChanged(this.value)">
+            <input type="range" min="2" max="20" id="speedInput" oninput="speedChanged(this.value)">
         </div>
 
         <div class="separator"></div>
