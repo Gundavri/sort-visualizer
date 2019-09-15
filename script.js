@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 20;
+const TIME_DELAY = 10;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
@@ -72,8 +72,62 @@ speedInput.value = INITIAL_SPEED_VALUE.toString();
 sizeChanged(INITIAL_SIZE_VALUE);
 speedChanged(INITIAL_SPEED_VALUE);
 
+function doSetTimeoutInsertion(k, [...ar]){
+    setTimeout(function(){
+        let swappedElems = getChangedElements(prevArr, ar);
+        prevArr = ar;
+        changeElementsAmount(ar);
+        wrapper.childNodes[swappedElems[0]].style.backgroundColor = 'red';
+    }, k*timeInterval);
 
-function insertionSortClicked() {
+}
+
+function doSetTimeoutSelection(k, [...ar], j , i, index){
+    setTimeout(function(){
+        changeElementsAmount(ar);
+        wrapper.childNodes[i].style.backgroundColor = 'red';
+        wrapper.childNodes[j].style.backgroundColor = 'orange';
+        wrapper.childNodes[index].style.backgroundColor = 'blue';
+    }, k*timeInterval);
+}
+
+function getChangedElements(arr1, arr2){
+    let res = [];
+    for(let i=0; i<arr1.length; i++){
+        if(arr1[i]!=arr2[i]) res.push(i);
+    }
+    return res;
+}
+
+// SORT FUNCTIONS
+// ########################
+function selectionSortClicked(){
+    let k = 1;
+    for(let i=0; i<arr.length; i++){
+        // doSetTimeoutSwapSelection(k, arr, i);
+        let min = arr[i];
+        let index = i;
+        for(let j=i+1; j<arr.length; j++){
+            doSetTimeoutSelection(k, arr, j, i, index);
+            if(min>arr[j]) {
+                min = arr[j];
+                index = j;
+            }
+            k++;
+        }
+        if(min < arr[i]){
+            let temp = arr[i];
+            arr[i] = min;
+            arr[index] = temp;
+        }
+    }
+    setTimeout(function(){
+        changeElementsAmount(arr);
+    }, k*timeInterval);
+    console.log(arr);
+}
+
+function insertionSortClicked(){
     let k = 1;
     for (let i = 1, len = arr.length; i < len; i++) {
         let temp = arr[i];
@@ -83,33 +137,13 @@ function insertionSortClicked() {
             arr[j + 1] = arr[j]
             arr[j] = t;
             j--;
-            doSetTimeout(k, arr);
+            doSetTimeoutInsertion(k, arr);
             k++;
         }
         arr[j + 1] = temp;
     }
     setTimeout(function(){
         changeElementsAmount(arr);
-    }, (k+1)*timeInterval);
-}
-
-function doSetTimeout(k, [...ar]){
-    setTimeout(function(){
-        let swappedElems = getChangedElements(prevArr, ar);
-        console.log(swappedElems);
-        prevArr = ar;
-        changeElementsAmount(ar);
-        wrapper.childNodes[swappedElems[0]].style.backgroundColor = 'red';
     }, k*timeInterval);
-
 }
 
-
-
-function getChangedElements(arr1, arr2){
-    let res = [];
-    for(let i=0; i<arr1.length; i++){
-        if(arr1[i]!=arr2[i]) res.push(i);
-    }
-    return res;
-}
