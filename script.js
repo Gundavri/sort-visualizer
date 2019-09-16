@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 10;
+const TIME_DELAY = 6;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
@@ -42,7 +42,7 @@ function changeElementsAmount(ar){
         let elem = document.createElement('div');
 //  Setting styles to columns
         elem.style.width = (100/(ar.length*2)).toString() + '%';
-        elem.style.height = (ar[i]*2.5 + 22).toString() + 'px';
+        elem.style.height = (ar[i]*2.5 + 25).toString() + 'px';
         elem.style.backgroundColor = 'black';
         elem.style.margin = '1px';
         elem.style.order = i.toString();
@@ -67,6 +67,14 @@ function removeChildElements(){
     }
 }
 
+function swapChildElems(a, b){
+    wrapper.childNodes[a].style.order = b;
+    wrapper.childNodes[b].style.order = a;
+}
+
+function findChildElems(){}
+
+
 sizeInput.value = INITIAL_SIZE_VALUE.toString();
 speedInput.value = INITIAL_SPEED_VALUE.toString();
 sizeChanged(INITIAL_SIZE_VALUE);
@@ -79,7 +87,6 @@ function doSetTimeoutInsertion(k, [...ar]){
         changeElementsAmount(ar);
         wrapper.childNodes[swappedElems[0]].style.backgroundColor = 'red';
     }, k*timeInterval);
-
 }
 
 function doSetTimeoutSelection(k, [...ar], j , i, index){
@@ -88,6 +95,12 @@ function doSetTimeoutSelection(k, [...ar], j , i, index){
         wrapper.childNodes[i].style.backgroundColor = 'red';
         wrapper.childNodes[j].style.backgroundColor = 'orange';
         wrapper.childNodes[index].style.backgroundColor = 'blue';
+    }, k*timeInterval);
+}
+
+function doSetTimeoutMerge(k, [...ar]){
+    setTimeout(function(){
+        changeElementsAmount(ar);
     }, k*timeInterval);
 }
 
@@ -103,7 +116,7 @@ function mergeSort(ar){
     if(ar.length <= 1) return ar;
 
     let index = Math.floor(ar.length/2);
-
+    
     let leftArr = ar.slice(0, index);
     let rightArr = ar.slice(index);
 
@@ -133,7 +146,8 @@ function merge(arr1, arr2){
         res.push(arr2[j]);
         j++;
     }
-
+    console.log(arr1, arr2);
+    console.log(res);
     return res;
 }
 
@@ -142,7 +156,6 @@ function merge(arr1, arr2){
 function selectionSortClicked(){
     let k = 1;
     for(let i=0; i<arr.length; i++){
-        // doSetTimeoutSwapSelection(k, arr, i);
         let min = arr[i];
         let index = i;
         for(let j=i+1; j<arr.length; j++){
