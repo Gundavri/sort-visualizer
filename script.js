@@ -13,6 +13,8 @@ let speedValue, sizeValue;
 let timeInterval;
 let arr;
 let prevArr;
+let arrMerge;
+let mergeK;
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -101,7 +103,7 @@ function doSetTimeoutSelection(k, [...ar], j , i, index){
 function doSetTimeoutMerge(k, [...ar]){
     setTimeout(function(){
         changeElementsAmount(ar);
-    }, k*timeInterval);
+    }, k*timeInterval*10);
 }
 
 function getChangedElements(arr1, arr2){
@@ -119,12 +121,13 @@ function mergeSort(ar){
     
     let leftArr = ar.slice(0, index);
     let rightArr = ar.slice(index);
-
-    return merge(mergeSort(leftArr), mergeSort(rightArr)); 
+    console.log(leftArr, rightArr);
+    return merge(mergeSort(leftArr), mergeSort(rightArr), [], []); 
 }
 
-function merge(arr1, arr2){
+function merge(arr1, arr2, lArr, rArr){
     let res = [];
+    let drawRes = [];
     let i = 0, j = 0;
 
     while(i<arr1.length && j<arr2.length){
@@ -146,8 +149,10 @@ function merge(arr1, arr2){
         res.push(arr2[j]);
         j++;
     }
-    console.log(arr1, arr2);
-    console.log(res);
+    drawRes = lArr.concat(res).concat(rArr);
+    doSetTimeoutMerge(mergeK, res);
+    mergeK++;
+    // console.log(drawRes);
     return res;
 }
 
@@ -199,6 +204,8 @@ function insertionSortClicked(){
 }
 
 function mergeSortClicked(){
+    arrMerge = [...arr];
+    mergeK = 1;
     arr = mergeSort(arr);
     changeElementsAmount(arr);
 }
