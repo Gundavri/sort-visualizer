@@ -14,7 +14,7 @@ let timeInterval;
 let arr;
 let prevArr;
 let arrMerge;
-let mergeK;
+let visualizeArrMerge = [];
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -100,10 +100,10 @@ function doSetTimeoutSelection(k, [...ar], j , i, index){
     }, k*timeInterval);
 }
 
-function doSetTimeoutMerge(k, [...ar]){
+function doSetTimeoutMerge([...ar]){
     setTimeout(function(){
         changeElementsAmount(ar);
-    }, k*timeInterval*10);
+    }, 10);
 }
 
 function getChangedElements(arr1, arr2){
@@ -121,13 +121,12 @@ function mergeSort(ar){
     
     let leftArr = ar.slice(0, index);
     let rightArr = ar.slice(index);
-    console.log(leftArr, rightArr);
-    return merge(mergeSort(leftArr), mergeSort(rightArr), [], []); 
+
+    return merge(mergeSort(leftArr), mergeSort(rightArr)); 
 }
 
-function merge(arr1, arr2, lArr, rArr){
+function merge(arr1, arr2){
     let res = [];
-    let drawRes = [];
     let i = 0, j = 0;
 
     while(i<arr1.length && j<arr2.length){
@@ -149,9 +148,8 @@ function merge(arr1, arr2, lArr, rArr){
         res.push(arr2[j]);
         j++;
     }
-    drawRes = lArr.concat(res).concat(rArr);
-    doSetTimeoutMerge(mergeK, res);
-    mergeK++;
+    visualizeArrMerge.push(res);
+    doSetTimeoutMerge(res);
     // console.log(drawRes);
     return res;
 }
@@ -205,7 +203,7 @@ function insertionSortClicked(){
 
 function mergeSortClicked(){
     arrMerge = [...arr];
-    mergeK = 1;
     arr = mergeSort(arr);
+    console.log(visualizeArrMerge);
     changeElementsAmount(arr);
 }
