@@ -13,8 +13,8 @@ let speedValue, sizeValue;
 let timeInterval;
 let arr;
 let prevArr;
-let arrMerge;
 let visualizeArrMerge = [];
+let indxArr = [];
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -100,10 +100,14 @@ function doSetTimeoutSelection(k, [...ar], j , i, index){
     }, k*timeInterval);
 }
 
-function doSetTimeoutMerge([...ar]){
+function doSetTimeoutMerge(k, i){
     setTimeout(function(){
-        changeElementsAmount(ar);
-    }, 10);
+        changeElementsAmount(visualizeArrMerge[i]);
+        let swappedElems = getChangedElements(visualizeArrMerge[i], visualizeArrMerge[i-1]);
+        for(let j=0; j<swappedElems.length; j++){
+            wrapper.childNodes[swappedElems[j]].style.backgroundColor = 'red';
+        }
+    }, k*timeInterval*10);
 }
 
 function getChangedElements(arr1, arr2){
@@ -114,44 +118,38 @@ function getChangedElements(arr1, arr2){
     return res;
 }
 
-function mergeSort(ar){
-    if(ar.length <= 1) return ar;
+function mergeSort(arr, lIndex, rIndex){
+    if(lIndex >= rIndex) return;
 
-    let index = Math.floor(ar.length/2);
-    
-    let leftArr = ar.slice(0, index);
-    let rightArr = ar.slice(index);
-
-    return merge(mergeSort(leftArr), mergeSort(rightArr)); 
+    let index = Math.floor(lIndex/2) + Math.floor(rIndex/2);
+   
+    mergeSort(arr, lIndex, index);
+    mergeSort(arr, index+1, rIndex); 
+    merge(arr, lIndex, index, rIndex);
 }
 
-function merge(arr1, arr2){
-    let res = [];
-    let i = 0, j = 0;
+function merge(arr, start, mid, end){
+    let start2 = mid + 1;
+    if(arr[mid] <= arr[start2]) return;
 
-    while(i<arr1.length && j<arr2.length){
-        if(arr1[i] < arr2[j]){
-            res.push(arr1[i]);
-            i++;
-        } else{
-            res.push(arr2[j]);
-            j++;
+    while(start <= mid && start2 <= end){
+        if(arr[start] <= arr[start2]){
+            start++;
+        }
+        else {
+            let value = arr[start2];
+            let idx = start2;
+            while(idx != start){
+                arr[idx] = arr[idx-1];
+                idx--;
+            }
+            arr[start] = value;
+            start++;
+            mid++;
+            start2++;
         }
     }
-
-    while(i<arr1.length){
-        res.push(arr1[i]);
-        i++;
-    }
-
-    while(j<arr2.length){
-        res.push(arr2[j]);
-        j++;
-    }
-    visualizeArrMerge.push(res);
-    doSetTimeoutMerge(res);
-    // console.log(drawRes);
-    return res;
+    visualizeArrMerge.push([...arr]);
 }
 
 // SORT FUNCTIONS
@@ -202,8 +200,12 @@ function insertionSortClicked(){
 }
 
 function mergeSortClicked(){
-    arrMerge = [...arr];
-    arr = mergeSort(arr);
-    console.log(visualizeArrMerge);
-    changeElementsAmount(arr);
+    visualizeArrMerge = [];
+    visualizeArrMerge.push(arr);
+    let k = 1;
+    mergeSort(arr, 0, arr.length-1);
+    for(let i=1; i<visualizeArrMerge.length; i++){
+        doSetTimeoutMerge(k, i);
+        k++;
+    }
 }
