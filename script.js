@@ -14,7 +14,7 @@ let timeInterval;
 let arr;
 let prevArr;
 let visualizeArrMerge = [];
-let indxArr = [];
+let indxArrMerge = [];
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -103,11 +103,10 @@ function doSetTimeoutSelection(k, [...ar], j , i, index){
 function doSetTimeoutMerge(k, i){
     setTimeout(function(){
         changeElementsAmount(visualizeArrMerge[i]);
-        let swappedElems = getChangedElements(visualizeArrMerge[i], visualizeArrMerge[i-1]);
-        for(let j=0; j<swappedElems.length; j++){
-            wrapper.childNodes[swappedElems[j]].style.backgroundColor = 'red';
+        for(let j=indxArrMerge[i][0]; j<=indxArrMerge[i][1]; j++){
+            wrapper.childNodes[j].style.backgroundColor = 'red';
         }
-    }, k*timeInterval*10);
+    }, k*timeInterval);
 }
 
 function getChangedElements(arr1, arr2){
@@ -122,7 +121,7 @@ function mergeSort(arr, lIndex, rIndex){
     if(lIndex >= rIndex) return;
 
     let index = Math.floor(lIndex/2) + Math.floor(rIndex/2);
-   
+
     mergeSort(arr, lIndex, index);
     mergeSort(arr, index+1, rIndex); 
     merge(arr, lIndex, index, rIndex);
@@ -131,6 +130,9 @@ function mergeSort(arr, lIndex, rIndex){
 function merge(arr, start, mid, end){
     let start2 = mid + 1;
     if(arr[mid] <= arr[start2]) return;
+
+    let tempA = [start, end];
+    indxArrMerge.push(tempA);
 
     while(start <= mid && start2 <= end){
         if(arr[start] <= arr[start2]){
@@ -201,11 +203,14 @@ function insertionSortClicked(){
 
 function mergeSortClicked(){
     visualizeArrMerge = [];
-    visualizeArrMerge.push(arr);
+    indxArrMerge = [];
     let k = 1;
     mergeSort(arr, 0, arr.length-1);
-    for(let i=1; i<visualizeArrMerge.length; i++){
+    for(let i=0; i<visualizeArrMerge.length; i++){
         doSetTimeoutMerge(k, i);
         k++;
     }
+    setTimeout(function(){
+        changeElementsAmount(arr);
+    }, k*timeInterval);
 }
