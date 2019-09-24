@@ -15,6 +15,7 @@ let arr;
 let prevArr;
 let visualizeArrMerge = [];
 let indxArrMerge = [];
+let quickK;
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -109,6 +110,23 @@ function doSetTimeoutMerge(k, i){
     }, k*timeInterval);
 }
 
+function doSetTimeoutQuick(k, [...ar]){
+    setTimeout(function(){
+        changeElementsAmount(ar);
+    }, k*timeInterval);
+}
+
+function doSetTimeoutQuickElem(k, [...ar], i, j, pivotIndex, clr, pivotClr){
+    setTimeout(function(){
+        changeElementsAmount(ar);
+        console.log(wrapper.childNodes, i, j);
+
+        if(i >= 0) wrapper.childNodes[i].style.backgroundColor = clr;
+        if(j >= 0) wrapper.childNodes[j].style.backgroundColor = clr;
+        wrapper.childNodes[pivotIndex].style.backgroundColor = pivotClr;
+    }, k*timeInterval);
+}
+
 function getChangedElements(arr1, arr2){
     let res = [];
     for(let i=0; i<arr1.length; i++){
@@ -155,11 +173,44 @@ function merge(arr, start, mid, end){
 }
 
 function quickSort(arr, start, end){
-    if(start >= end) return;
+    quickK++;
+    let i = start;
+    let j = end;
+    let pivotIndex = Math.floor((start + end)/2);
+    let pivot = arr[pivotIndex];
+    doSetTimeoutQuickElem(quickK, arr, -1, -1, pivotIndex, 'green');
 
-    let pivot = quckSortPartition(arr, start, end);
-    quickSort(arr, start, pivot-1);
-    quickSort(arr, pivot+1, end);
+    while(i <= j){
+        while(arr[i] < pivot){
+            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, 'red', 'green');
+            quickK++;
+            i++;
+        }
+
+        while(arr[j] > pivot){
+            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, 'red', 'green');
+            quickK++;
+            j--;
+        }
+        
+        if(i <= j){
+            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, 'red', 'green');
+            quickK++;
+            let tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+            i++;
+            j--;
+        }
+    }
+    doSetTimeoutQuick(quickK, arr);
+    if(start < j){
+        quickSort(arr, start, j);
+    }
+    if(i < end){
+        quickSort(arr, i, end);
+    }
+
 }
 
 // SORT FUNCTIONS
@@ -224,5 +275,6 @@ function mergeSortClicked(){
 }
 
 function quickSortClicked(){
-    console.log('quicksort works')
+    quickK = 0;
+    quickSort(arr, 0, arr.length-1);
 }
