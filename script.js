@@ -154,6 +154,14 @@ function merge(arr, start, mid, end){
     visualizeArrMerge.push([...arr]);
 }
 
+function quickSort(arr, start, end){
+    if(start >= end) return;
+
+    let pivot = quckSortPartition(arr, start, end);
+    quickSort(arr, start, pivot-1);
+    quickSort(arr, pivot+1, end);
+}
+
 // SORT FUNCTIONS
 // ########################
 function selectionSortClicked(){
@@ -213,4 +221,8 @@ function mergeSortClicked(){
     setTimeout(function(){
         changeElementsAmount(arr);
     }, k*timeInterval);
+}
+
+function quickSortClicked(){
+    console.log('quicksort works')
 }
