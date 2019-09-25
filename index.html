@@ -15,8 +15,6 @@
             <h1>Generate New Array!</h1>
         </div>
 
-        <div class="separator"></div>
-
         <div class="toolbarElem">
             <h1 id="changeSizeText">Change Array Size</h1>
             <input type="range" min="5" max="150" id="sizeInput" oninput="sizeChanged(this.value)">
@@ -27,31 +25,26 @@
             <input type="range" min="2" max="20" id="speedInput" oninput="speedChanged(this.value)">
         </div>
 
-        <div class="separator"></div>
-
-        <div class="toolbarElem clickable" onclick="selectionSortClicked()">
+        <div class="toolbarElem clickable" id="selectionSort" onclick="selectionSortClicked()">
             <h1>Selection Sort</h1>
         </div>
 
-        <div class="toolbarElem clickable" onclick="insertionSortClicked()">
+        <div class="toolbarElem clickable" id="insertionSort" onclick="insertionSortClicked()">
             <h1>Insertion Sort</h1>
         </div>
 
-        <div class="toolbarElem clickable" onclick="mergeSortClicked()">
+        <div class="toolbarElem clickable" id="bubbleSort" onclick="bubbleSortClicked()">
+            <h1>Bubble Sort</h1>
+        </div>
+
+        <div class="toolbarElem clickable" id="mergeSort" onclick="mergeSortClicked()">
             <h1>Merge Sort</h1>
         </div>
 
-        <div class="toolbarElem clickable" onclick="quickSortClicked()">
+        <div class="toolbarElem clickable" id="quickSort" onclick="quickSortClicked()">
             <h1>Quick Sort</h1>
         </div>
-
-        <div class="toolbarElem clickable">
-            <h1>Heap Sort</h1>
-        </div>
-
-        <div class="toolbarElem clickable">
-            <h1>Bubble Sort</h1>
-        </div>
+        
     </div>
 
     <div id="wrapper">

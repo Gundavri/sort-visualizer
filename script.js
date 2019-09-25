@@ -1,13 +1,33 @@
 "use strict";
 
-const TIME_DELAY = 6;
+const TIME_DELAY = 1;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
+
+//  Main Colors
+const ELEM_BACKGROUND_COLOR = 'black';
+const ELEM_TEXT_COLOR = 'white';
+// Selection Colors
+const SELECTION_COLOR_1 = 'blue';
+const SELECTION_COLOR_2 = 'red';
+const SELECTION_COLOR_3 = 'green';
+// Insertion Colors
+const INSERTION_COLOR = 'red';
+// Bubble Colors
+const BUBBLE_COLOR = 'red';
+// Merge Colors
+const MERGE_COLOR = 'red';
+// Quick Colors
+const QUICK_COLOR_1 = 'red';
+const QUICK_COLOR_2 = 'green';
+
 
 let wrapper = document.getElementById('wrapper');
 let sizeInput = document.getElementById('sizeInput');
 let speedInput = document.getElementById('speedInput');
 
+
+let isSorting = false;
 let speedValue, sizeValue;
 
 let timeInterval;
@@ -46,7 +66,7 @@ function changeElementsAmount(ar){
 //  Setting styles to columns
         elem.style.width = (100/(ar.length*2)).toString() + '%';
         elem.style.height = (ar[i]*2.5 + 25).toString() + 'px';
-        elem.style.backgroundColor = 'black';
+        elem.style.backgroundColor = ELEM_BACKGROUND_COLOR;
         elem.style.margin = '1px';
         elem.style.order = i.toString();
 /////////////////////////////
@@ -54,7 +74,7 @@ function changeElementsAmount(ar){
             elem.style.textAlign = 'center';
             let elemChild = document.createElement('p');
             elemChild.innerText = ar[i].toString();
-            elemChild.style.color = 'white';
+            elemChild.style.color = ELEM_TEXT_COLOR;
             elemChild.style.margin = '3px';
             elemChild.style.fontSize = (25-ar.length).toString() + 'px';
             elem.appendChild(elemChild);
@@ -88,16 +108,16 @@ function doSetTimeoutInsertion(k, [...ar]){
         let swappedElems = getChangedElements(prevArr, ar);
         prevArr = ar;
         changeElementsAmount(ar);
-        wrapper.childNodes[swappedElems[0]].style.backgroundColor = 'red';
+        wrapper.childNodes[swappedElems[0]].style.backgroundColor = INSERTION_COLOR;
     }, k*timeInterval);
 }
 
 function doSetTimeoutSelection(k, [...ar], j , i, index){
     setTimeout(function(){
         changeElementsAmount(ar);
-        wrapper.childNodes[i].style.backgroundColor = 'red';
-        wrapper.childNodes[j].style.backgroundColor = 'orange';
-        wrapper.childNodes[index].style.backgroundColor = 'blue';
+        wrapper.childNodes[i].style.backgroundColor = SELECTION_COLOR_1;
+        wrapper.childNodes[j].style.backgroundColor = SELECTION_COLOR_2;
+        wrapper.childNodes[index].style.backgroundColor = SELECTION_COLOR_3;
     }, k*timeInterval);
 }
 
@@ -105,7 +125,7 @@ function doSetTimeoutMerge(k, i){
     setTimeout(function(){
         changeElementsAmount(visualizeArrMerge[i]);
         for(let j=indxArrMerge[i][0]; j<=indxArrMerge[i][1]; j++){
-            wrapper.childNodes[j].style.backgroundColor = 'red';
+            wrapper.childNodes[j].style.backgroundColor = MERGE_COLOR;
         }
     }, k*timeInterval);
 }
@@ -119,7 +139,6 @@ function doSetTimeoutQuick(k, [...ar]){
 function doSetTimeoutQuickElem(k, [...ar], i, j, pivotIndex, clr, pivotClr){
     setTimeout(function(){
         changeElementsAmount(ar);
-        console.log(wrapper.childNodes, i, j);
 
         if(i >= 0) wrapper.childNodes[i].style.backgroundColor = clr;
         if(j >= 0) wrapper.childNodes[j].style.backgroundColor = clr;
@@ -178,23 +197,22 @@ function quickSort(arr, start, end){
     let j = end;
     let pivotIndex = Math.floor((start + end)/2);
     let pivot = arr[pivotIndex];
-    doSetTimeoutQuickElem(quickK, arr, -1, -1, pivotIndex, 'green');
 
     while(i <= j){
         while(arr[i] < pivot){
-            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, 'red', 'green');
+            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, QUICK_COLOR_1, QUICK_COLOR_2);
             quickK++;
             i++;
         }
 
         while(arr[j] > pivot){
-            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, 'red', 'green');
+            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, QUICK_COLOR_1, QUICK_COLOR_2);
             quickK++;
             j--;
         }
         
         if(i <= j){
-            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, 'red', 'green');
+            doSetTimeoutQuickElem(quickK, arr, i, j, pivotIndex, QUICK_COLOR_1, QUICK_COLOR_2);
             quickK++;
             let tmp = arr[i];
             arr[i] = arr[j];
@@ -213,9 +231,18 @@ function quickSort(arr, start, end){
 
 }
 
+function doSetTimeoutBubble(k, [...ar], index){
+    setTimeout(function(){
+        changeElementsAmount(ar);
+        wrapper.childNodes[index].style.backgroundColor = BUBBLE_COLOR;
+        wrapper.childNodes[index+1].style.backgroundColor = BUBBLE_COLOR;
+    }, k*timeInterval);
+}
+
 // SORT FUNCTIONS
 // ########################
 function selectionSortClicked(){
+    isSorting = true;
     let k = 1;
     for(let i=0; i<arr.length; i++){
         let min = arr[i];
@@ -236,11 +263,12 @@ function selectionSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
+        isSorting = false;
     }, k*timeInterval);
-    console.log(arr);
 }
 
 function insertionSortClicked(){
+    isSorting = true;
     let k = 1;
     for (let i = 1, len = arr.length; i < len; i++) {
         let temp = arr[i];
@@ -257,10 +285,32 @@ function insertionSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
+        isSorting = false;
+    }, k*timeInterval);
+}
+
+function bubbleSortClicked(){
+    isSorting = true;
+    let k = 1;
+    for(let i=0; i<arr.length; i++){
+        for(let j=0; j<arr.length-1-i; j++){
+            if(arr[j] > arr[j+1]){
+                let temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+                doSetTimeoutBubble(k, arr, j);
+                k++;
+            }
+        }
+    }
+    setTimeout(function(){
+        changeElementsAmount(arr);
+        isSorting = false;
     }, k*timeInterval);
 }
 
 function mergeSortClicked(){
+    isSorting = true;
     visualizeArrMerge = [];
     indxArrMerge = [];
     let k = 1;
@@ -271,10 +321,18 @@ function mergeSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
+        isSorting = false;
     }, k*timeInterval);
 }
 
 function quickSortClicked(){
     quickK = 0;
     quickSort(arr, 0, arr.length-1);
+    setTimeout(function(){
+        changeElementsAmount(arr);
+        isSorting = false;
+    }, quickK*timeInterval);
 }
+
+document.getElementById('selectionSort').style.pointerEvents = 'none';
+
