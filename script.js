@@ -23,8 +23,18 @@ const QUICK_COLOR_2 = 'green';
 
 
 let wrapper = document.getElementById('wrapper');
+
+let generateArrayButton = document.getElementById('generateArray');
+let stopSortingButton = document.getElementById('stopSorting');
+
 let sizeInput = document.getElementById('sizeInput');
 let speedInput = document.getElementById('speedInput');
+
+let selectionSortButton = document.getElementById('selectionSort');
+let insertionSortButton = document.getElementById('insertionSort');
+let bubbleSortButton = document.getElementById('bubbleSort');
+let mergeSortButton = document.getElementById('mergeSort');
+let quickSortButton = document.getElementById('quickSort');
 
 
 let isSorting = false;
@@ -32,10 +42,14 @@ let speedValue, sizeValue;
 
 let timeInterval;
 let arr;
+let shownArr;
+let sortedArr = [];
 let prevArr;
 let visualizeArrMerge = [];
 let indxArrMerge = [];
 let quickK;
+
+stopSortingButton.style.pointerEvents = 'none';
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -47,7 +61,6 @@ function sizeChanged(value){
     arr = tempArr;
     prevArr = [...arr];
     changeElementsAmount(arr);
-    console.log(arr);
 }
 
 function speedChanged(value){
@@ -60,6 +73,7 @@ function generateClicked(){
 }
 
 function changeElementsAmount(ar){
+    shownArr = [...ar];
     removeChildElements();
     for(let i=0; i<ar.length; i++){
         let elem = document.createElement('div');
@@ -95,7 +109,31 @@ function swapChildElems(a, b){
     wrapper.childNodes[b].style.order = a;
 }
 
-function findChildElems(){}
+function isSortingChanged(){
+    isSorting = !isSorting;
+    let status = isSorting ? 'none' : 'auto'; 
+
+//  Pointer Events
+    generateArrayButton.style.pointerEvents = status;
+    sizeInput.style.pointerEvents = status;
+    speedInput.style.pointerEvents = status;
+    selectionSortButton.style.pointerEvents = status;
+    insertionSortButton.style.pointerEvents = status;
+    bubbleSortButton.style.pointerEvents = status;
+    mergeSortButton.style.pointerEvents = status;
+    quickSortButton.style.pointerEvents = status;
+    
+    stopSortingButton.style.pointerEvents = isSorting ? 'auto' : 'none';
+}
+
+function isEqual(ar, sortedAr){
+    if(ar.length !== sortedArr.length) return false;
+
+    for(let i=0; i<sortedAr.length; i++){
+        if(sortedAr[i] !== ar[i]) return false;
+    }
+    return true;
+}
 
 
 sizeInput.value = INITIAL_SIZE_VALUE.toString();
@@ -127,7 +165,7 @@ function doSetTimeoutMerge(k, i){
         for(let j=indxArrMerge[i][0]; j<=indxArrMerge[i][1]; j++){
             wrapper.childNodes[j].style.backgroundColor = MERGE_COLOR;
         }
-    }, k*timeInterval);
+    }, k*timeInterval*10);
 }
 
 function doSetTimeoutQuick(k, [...ar]){
@@ -242,7 +280,10 @@ function doSetTimeoutBubble(k, [...ar], index){
 // SORT FUNCTIONS
 // ########################
 function selectionSortClicked(){
-    isSorting = true;
+    if(isEqual(arr, sortedArr)) {
+        return;
+    }
+    isSortingChanged();
     let k = 1;
     for(let i=0; i<arr.length; i++){
         let min = arr[i];
@@ -263,12 +304,16 @@ function selectionSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
-        isSorting = false;
+        isSortingChanged();
     }, k*timeInterval);
+    sortedArr = [...arr];
 }
 
 function insertionSortClicked(){
-    isSorting = true;
+    if(isEqual(arr, sortedArr)) {
+        return;
+    }
+    isSortingChanged();
     let k = 1;
     for (let i = 1, len = arr.length; i < len; i++) {
         let temp = arr[i];
@@ -285,12 +330,16 @@ function insertionSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
-        isSorting = false;
+        isSortingChanged();
     }, k*timeInterval);
+    sortedArr = [...arr];
 }
 
 function bubbleSortClicked(){
-    isSorting = true;
+    if(isEqual(arr, sortedArr)) {
+        return;
+    }
+    isSortingChanged();
     let k = 1;
     for(let i=0; i<arr.length; i++){
         for(let j=0; j<arr.length-1-i; j++){
@@ -305,12 +354,16 @@ function bubbleSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
-        isSorting = false;
+        isSortingChanged();
     }, k*timeInterval);
+    sortedArr = [...arr];
 }
 
 function mergeSortClicked(){
-    isSorting = true;
+    if(isEqual(arr, sortedArr)) {
+        return;
+    }
+    isSortingChanged();
     visualizeArrMerge = [];
     indxArrMerge = [];
     let k = 1;
@@ -321,18 +374,32 @@ function mergeSortClicked(){
     }
     setTimeout(function(){
         changeElementsAmount(arr);
-        isSorting = false;
-    }, k*timeInterval);
+        isSortingChanged();
+    }, k*timeInterval*10);
+    sortedArr = [...arr];
 }
 
 function quickSortClicked(){
+    if(isEqual(arr, sortedArr)) {
+        return;
+    }
+    isSortingChanged();
     quickK = 0;
     quickSort(arr, 0, arr.length-1);
     setTimeout(function(){
         changeElementsAmount(arr);
-        isSorting = false;
+        isSortingChanged();
     }, quickK*timeInterval);
+    sortedArr = [...arr];
 }
 
-document.getElementById('selectionSort').style.pointerEvents = 'none';
-
+function stopClicked(){
+    let timeoutId = setTimeout(function(){},0);
+    isSortingChanged();
+    while(timeoutId >= 0){
+        window.clearTimeout(timeoutId);
+        timeoutId--;
+    }
+    changeElementsAmount(shownArr);
+    arr = [...shownArr];
+}

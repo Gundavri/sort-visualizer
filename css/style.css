@@ -19,6 +19,7 @@ body {
 }
 
 .toolbarElem {
+    margin-left: 10px;
     display: flex;
 }
 
@@ -36,7 +37,6 @@ body {
     color: grey;
 }
 
-
 #changeSizeText, #changeSpeedText {
     margin-right: 8px;
 }
@@ -46,6 +46,11 @@ body {
     width: 28%;
     cursor: pointer;
 }
+
+#stopSorting h1 {
+    color: red;
+}
+
 /* ##################### */
 
 
