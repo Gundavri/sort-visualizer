@@ -30,6 +30,7 @@ let stopSortingButton = document.getElementById('stopSorting');
 let sizeInput = document.getElementById('sizeInput');
 let speedInput = document.getElementById('speedInput');
 
+let bogoSortButton = document.getElementById('bogoSort');
 let selectionSortButton = document.getElementById('selectionSort');
 let insertionSortButton = document.getElementById('insertionSort');
 let bubbleSortButton = document.getElementById('bubbleSort');
@@ -117,6 +118,7 @@ function isSortingChanged(){
     generateArrayButton.style.pointerEvents = status;
     sizeInput.style.pointerEvents = status;
     speedInput.style.pointerEvents = status;
+    bogoSortButton.style.pointerEvents = status;
     selectionSortButton.style.pointerEvents = status;
     insertionSortButton.style.pointerEvents = status;
     bubbleSortButton.style.pointerEvents = status;
@@ -127,8 +129,7 @@ function isSortingChanged(){
 }
 
 function isEqual(ar, sortedAr){
-    if(ar.length !== sortedArr.length) return false;
-
+    if(ar.length !== sortedAr.length) return false;
     for(let i=0; i<sortedAr.length; i++){
         if(sortedAr[i] !== ar[i]) return false;
     }
@@ -279,6 +280,35 @@ function doSetTimeoutBubble(k, [...ar], index){
 
 // SORT FUNCTIONS
 // ########################
+
+function bogoSortClicked(){
+    if(isEqual(arr, sortedArr)) {
+        return;
+    }
+    isSortingChanged();
+    let sortedArrBogo = [...arr].sort(function(a, b){
+        return a-b;
+    });
+
+    setInterval(function(){
+        changeElementsAmount(arr);
+        if(isEqual(arr, sortedArrBogo)){
+            stopClicked();
+            setTimeout(function(){
+                changeElementsAmount(sortedArrBogo);
+            }, 10);
+        }
+        let a = Math.floor(Math.random()*arr.length);
+        let b = Math.floor(Math.random()*arr.length);
+        wrapper.childNodes[a].style.backgroundColor = 'red';
+        wrapper.childNodes[b].style.backgroundColor = 'red';
+        let tempBogo = arr[a];
+        arr[a] = arr[b];
+        arr[b] = tempBogo;
+    }, timeInterval*20);
+}
+
+
 function selectionSortClicked(){
     if(isEqual(arr, sortedArr)) {
         return;
@@ -395,10 +425,15 @@ function quickSortClicked(){
 
 function stopClicked(){
     let timeoutId = setTimeout(function(){},0);
+    let intervalId = setInterval(function(){},0);
     isSortingChanged();
     while(timeoutId >= 0){
         window.clearTimeout(timeoutId);
         timeoutId--;
+    }
+    while(intervalId >= 0){
+        window.clearInterval(intervalId);
+        intervalId--;
     }
     changeElementsAmount(shownArr);
     arr = [...shownArr];

@@ -51,6 +51,11 @@ body {
     color: red;
 }
 
+input {
+    position: relative;
+    bottom: 5px;
+}
+
 /* ##################### */
 
 
