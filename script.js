@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 1;
+const TIME_DELAY = 5;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
@@ -21,6 +21,12 @@ const MERGE_COLOR = 'red';
 const QUICK_COLOR_1 = 'red';
 const QUICK_COLOR_2 = 'green';
 
+var audioCtx = new AudioContext();
+var oscillator1 = audioCtx.createOscillator();
+var oscillator2 = audioCtx.createOscillator();
+
+var oscillator1On = false;
+var oscillator2On = false;
 
 let wrapper = document.getElementById('wrapper');
 
@@ -37,7 +43,9 @@ let bubbleSortButton = document.getElementById('bubbleSort');
 let mergeSortButton = document.getElementById('mergeSort');
 let quickSortButton = document.getElementById('quickSort');
 
+let icon = document.getElementById('materialIcon');
 
+let soundOn = true;
 let isSorting = false;
 let speedValue, sizeValue;
 
@@ -51,6 +59,11 @@ let indxArrMerge = [];
 let quickK;
 
 stopSortingButton.style.pointerEvents = 'none';
+
+//     oscillator.type = 'square';
+//     oscillator.frequency.value = 500; 
+//     oscillator.connect(audioCtx.destination);
+//     oscillator.start();
 
 //  gets values from inputs
 function sizeChanged(value){
@@ -70,7 +83,7 @@ function speedChanged(value){
 }
 
 function generateClicked(){
-    sizeChanged(arr.length);
+    sizeChanged(arr.length);   
 }
 
 function changeElementsAmount(ar){
@@ -291,6 +304,11 @@ function bogoSortClicked(){
     });
 
     setInterval(function(){
+        // if(oscillator1On){
+        //     oscillator1.stop();
+        //     oscillator1.disconnect(audioCtx.destination);
+        //     oscillator1On = false;
+        // }
         changeElementsAmount(arr);
         if(isEqual(arr, sortedArrBogo)){
             stopClicked();
@@ -305,7 +323,12 @@ function bogoSortClicked(){
         let tempBogo = arr[a];
         arr[a] = arr[b];
         arr[b] = tempBogo;
-    }, timeInterval*20);
+        oscillator1.type = 'square';
+        oscillator1.frequency.value = arr[a]*3+200; 
+        oscillator1.connect(audioCtx.destination);
+        oscillator1.start();
+        oscillator1On = true;
+    }, timeInterval*2);
 }
 
 
@@ -437,4 +460,13 @@ function stopClicked(){
     }
     changeElementsAmount(shownArr);
     arr = [...shownArr];
+}
+
+function changeSoundValue(){
+    soundOn = !soundOn;
+    if(soundOn){
+        icon.innerText = 'volume_up';
+    } else{
+        icon.innerText = 'volume_off';
+    }
 }

@@ -65,7 +65,7 @@ input {
 #wrapper {
     margin: auto;
     width: 60%;
-    height: 90%;
+    height: 87%;
     /* background-color: red; */
     display: flex;
     justify-content: center;
@@ -74,3 +74,11 @@ input {
 
 
 /* ##################### */
+
+.infoSoundDiv {
+    float: right;
+}
+
+#soundDiv:hover {
+    cursor: pointer;
+}
