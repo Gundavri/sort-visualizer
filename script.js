@@ -438,3 +438,4 @@ function stopClicked(){
     changeElementsAmount(shownArr);
     arr = [...shownArr];
 }
+
