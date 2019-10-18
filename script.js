@@ -462,6 +462,8 @@ function stopClicked(){
     arr = [...shownArr];
 }
 
+<<<<<<< HEAD
+=======
 function changeSoundValue(){
     soundOn = !soundOn;
     if(soundOn){
@@ -470,3 +472,4 @@ function changeSoundValue(){
         icon.innerText = 'volume_off';
     }
 }
+>>>>>>> c17029e314d64e3af2096015f118b32d52458954
