@@ -323,11 +323,11 @@ function bogoSortClicked(){
         let tempBogo = arr[a];
         arr[a] = arr[b];
         arr[b] = tempBogo;
-        oscillator1.type = 'square';
-        oscillator1.frequency.value = arr[a]*3+200; 
-        oscillator1.connect(audioCtx.destination);
-        oscillator1.start();
-        oscillator1On = true;
+        // oscillator1.type = 'square';
+        // oscillator1.frequency.value = arr[a]*3+200; 
+        // oscillator1.connect(audioCtx.destination);
+        // oscillator1.start();
+        // oscillator1On = true;
     }, timeInterval*2);
 }
 
@@ -462,14 +462,11 @@ function stopClicked(){
     arr = [...shownArr];
 }
 
-<<<<<<< HEAD
-=======
-function changeSoundValue(){
-    soundOn = !soundOn;
-    if(soundOn){
-        icon.innerText = 'volume_up';
-    } else{
-        icon.innerText = 'volume_off';
-    }
-}
->>>>>>> c17029e314d64e3af2096015f118b32d52458954
+// function changeSoundValue(){
+//     soundOn = !soundOn;
+//     if(soundOn){
+//         icon.innerText = 'volume_up';
+//     } else{
+//         icon.innerText = 'volume_off';
+//     }
+// }
