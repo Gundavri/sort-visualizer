@@ -5,6 +5,7 @@ html {
 body {
     margin: 0;
     height: 100%;
+    background: linear-gradient(to right, #9e3bbf, #0915f7);
 }
 
 /* toolbar styles */
