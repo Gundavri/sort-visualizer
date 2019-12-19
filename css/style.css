@@ -102,7 +102,7 @@ input {
     }
 
     #wrapper {
-        flex: 6;
+        flex: 5;
         margin-left: -10px;
         width: 95%;
     }
@@ -133,11 +133,12 @@ input {
     }
 
     .toolbarElem h1 {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     #sizeInput, #speedInput {
         width: 60%;
     }
+
 
 }
