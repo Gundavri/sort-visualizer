@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 5;
+const TIME_DELAY = 7;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
@@ -28,6 +28,7 @@ var oscillator2 = audioCtx.createOscillator();
 var oscillator1On = false;
 var oscillator2On = false;
 
+let mobileMenu = document.getElementById('mobile-menu');
 let wrapper = document.getElementById('wrapper');
 
 let generateArrayButton = document.getElementById('generateArray');
@@ -57,6 +58,8 @@ let prevArr;
 let visualizeArrMerge = [];
 let indxArrMerge = [];
 let quickK;
+let prevInnerWidth = window.innerWidth;
+let prevMenuStatus = true;
 
 stopSortingButton.style.pointerEvents = 'none';
 
@@ -93,18 +96,22 @@ function changeElementsAmount(ar){
         let elem = document.createElement('div');
 //  Setting styles to columns
         elem.style.width = (100/(ar.length*2)).toString() + '%';
-        elem.style.height = (ar[i]*2.5 + 25).toString() + 'px';
+        elem.style.height = (ar[i]/2.2 + 4).toString() + '%';
         elem.style.backgroundColor = ELEM_BACKGROUND_COLOR;
         elem.style.margin = '1px';
         elem.style.order = i.toString();
 /////////////////////////////
-        if(arr.length <= 15){
+        if((arr.length <= 15 && window.innerWidth > 600) || (arr.length < 11)){
             elem.style.textAlign = 'center';
             let elemChild = document.createElement('p');
             elemChild.innerText = ar[i].toString();
             elemChild.style.color = ELEM_TEXT_COLOR;
             elemChild.style.margin = '3px';
-            elemChild.style.fontSize = (25-ar.length).toString() + 'px';
+            if(window.innerWidth > 600){
+                elemChild.style.fontSize = (25-ar.length).toString() + 'px';
+            } else {
+                elemChild.style.fontSize = (16-ar.length).toString() + 'px';
+            }
             elem.appendChild(elemChild);
         }
 
@@ -470,3 +477,34 @@ function stopClicked(){
 //         icon.innerText = 'volume_off';
 //     }
 // }
+
+function onResizeEvent() {
+    console.log(prevInnerWidth);
+    if(window.innerWidth <= 600) {
+        sizeInput.max = 50;
+        sizeInput.value = 10;
+        sizeInput.min = 3;
+    } else if(window.innerWidth > 600) {
+        sizeInput.max = 150;
+        sizeInput.value = 15;
+        sizeInput.min = 5;
+        prevMenuStatus = false;
+    }
+    prevInnerWidth = window.innerWidth;
+    sizeChanged(sizeInput.value)
+}
+
+window.addEventListener('resize', onResizeEvent);
+
+function toggleMenu() {
+    if(prevMenuStatus) {
+        mobileMenu.style.display = 'none';
+    } else {
+        mobileMenu.style.display = 'flex';
+    }
+    prevMenuStatus = !prevMenuStatus;
+}
+
+if(window.innerWidth <= 600) {
+    onResizeEvent();
+}

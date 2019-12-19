@@ -13,6 +13,56 @@
     <title>Sort Visualizer</title>
 </head>
 <body>
+    <div id="full-wrapper">
+        <a href="javascript:void(0);" class="burger-icon" onclick="toggleMenu()">
+            <img src="./burger.png" alt="">
+        </a>
+
+        <div id="mobile-menu">
+            <div class="toolbarElem clickable" id="generateArray" onclick="generateClicked()">
+                <h1>Generate New Array!</h1>
+            </div>
+    
+            <div class="toolbarElem clickable" id="stopSorting" onclick="stopClicked()">
+                <h1>Stop!</h1>
+            </div>
+    
+            <div class="toolbarElem" id="changeSizeDiv">
+                <h1 id="changeSizeText">Change Array Size</h1>
+                <input type="range" min="5" max="150" id="sizeInput" oninput="sizeChanged(this.value)">
+            </div>
+    
+            <div class="toolbarElem" id="changeSpeedDiv">
+                <h1 id="changeSpeedText">Change Sorting Speed</h1>
+                <input type="range" min="2" max="20" id="speedInput" oninput="speedChanged(this.value)">
+            </div>
+    
+            <div class="toolbarElem clickable" id="bogoSort" onclick="bogoSortClicked()">
+                <h1>Bogo Sort</h1>
+            </div>
+    
+            <div class="toolbarElem clickable" id="selectionSort" onclick="selectionSortClicked()">
+                <h1>Selection Sort</h1>
+            </div>
+    
+            <div class="toolbarElem clickable" id="insertionSort" onclick="insertionSortClicked()">
+                <h1>Insertion Sort</h1>
+            </div>
+    
+            <div class="toolbarElem clickable" id="bubbleSort" onclick="bubbleSortClicked()">
+                <h1>Bubble Sort</h1>
+            </div>
+    
+            <div class="toolbarElem clickable" id="mergeSort" onclick="mergeSortClicked()">
+                <h1>Merge Sort</h1>
+            </div>
+    
+            <div class="toolbarElem clickable" id="quickSort" onclick="quickSortClicked()">
+                <h1>Quick Sort</h1>
+            </div>
+        </div>
+    </div>
+
     <div class="toolbar">
         <div class="toolbarElem clickable" id="generateArray" onclick="generateClicked()">
             <h1>Generate New Array!</h1>
@@ -58,11 +108,9 @@
         
     </div>
 
-    
     <div id="wrapper">
-        
+
     </div>
-    
     <!-- <div class="infoSoundDiv">
         <div id="soundDiv" onclick="changeSoundValue()">
             <i class="material-icons md-48" id="materialIcon">volume_up</i>
