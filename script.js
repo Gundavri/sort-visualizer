@@ -510,12 +510,12 @@ function toggleMenu() {
         }, 7);
     } else {
         let i = 0;
+        mobileMenu.style.display = 'flex';
         setInterval(() => {
             if(i <= 0.98) {
                 mobileMenu.style.opacity = i.toString();
                 i+=0.02;
             } else if(i <= 1) {
-                mobileMenu.style.display = 'flex';
                 i = 2;
             }
         }, 7);
