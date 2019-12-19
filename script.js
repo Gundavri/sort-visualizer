@@ -498,9 +498,27 @@ window.addEventListener('resize', onResizeEvent);
 
 function toggleMenu() {
     if(prevMenuStatus) {
-        mobileMenu.style.display = 'none';
+        let i = 1;
+        setInterval(() => {
+            if(i > 0.02) {
+                mobileMenu.style.opacity = i.toString();
+                i-=0.02;
+            } else if(i > 0) {
+                mobileMenu.style.display = 'none';
+                i = -1;
+            }
+        }, 7);
     } else {
-        mobileMenu.style.display = 'flex';
+        let i = 0;
+        setInterval(() => {
+            if(i <= 0.98) {
+                mobileMenu.style.opacity = i.toString();
+                i+=0.02;
+            } else if(i <= 1) {
+                mobileMenu.style.display = 'flex';
+                i = 2;
+            }
+        }, 7);
     }
     prevMenuStatus = !prevMenuStatus;
 }

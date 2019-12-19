@@ -109,7 +109,7 @@ input {
 
     .burger-icon img{
         display: block;
-        width: 8vh;
+        width: 15vw;
     }
 
     .toolbar{
@@ -134,11 +134,10 @@ input {
 
     .toolbarElem h1 {
         font-size: 9px;
+        width: 50%;
     }
 
     #sizeInput, #speedInput {
         width: 60%;
     }
-
-
 }
