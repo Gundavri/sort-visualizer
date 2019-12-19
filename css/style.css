@@ -102,14 +102,14 @@ input {
     }
 
     #wrapper {
-        flex: 8;
+        flex: 6;
         margin-left: -10px;
         width: 95%;
     }
 
     .burger-icon img{
         display: block;
-        width: 6vh;
+        width: 8vh;
     }
 
     .toolbar{
