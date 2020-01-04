@@ -119,6 +119,11 @@ input {
     #mobile-menu {
         display: flex;
         flex-direction: column;
+        transition: transform 300ms ease-in-out;
+    }
+
+    .hidden-mobile-menu{
+        transform: translate(-100%, 0);
     }
 
     .toolbarElem {

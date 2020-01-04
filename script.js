@@ -498,27 +498,9 @@ window.addEventListener('resize', onResizeEvent);
 
 function toggleMenu() {
     if(prevMenuStatus) {
-        let i = 1;
-        setInterval(() => {
-            if(i > 0.02) {
-                mobileMenu.style.opacity = i.toString();
-                i-=0.02;
-            } else if(i > 0) {
-                mobileMenu.style.display = 'none';
-                i = -1;
-            }
-        }, 7);
+        mobileMenu.classList.add('hidden-mobile-menu');
     } else {
-        let i = 0;
-        mobileMenu.style.display = 'flex';
-        setInterval(() => {
-            if(i <= 0.98) {
-                mobileMenu.style.opacity = i.toString();
-                i+=0.02;
-            } else if(i <= 1) {
-                i = 2;
-            }
-        }, 7);
+        mobileMenu.classList.remove('hidden-mobile-menu');
     }
     prevMenuStatus = !prevMenuStatus;
 }
