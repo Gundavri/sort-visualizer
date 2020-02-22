@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 7;
+const TIME_DELAY = 9;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
