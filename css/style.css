@@ -17,12 +17,12 @@ body {
 /* toolbar styles */
 /* ######################## */
 .toolbar {
-    height: 5%;
+    height: 8%;
     background-color: rgb(34, 57, 122);
     display: flex;
     justify-content: center;
     justify-content: space-between;
-    padding: 1%;
+    align-items: center;
 }
 
 .toolbarElem {
@@ -52,6 +52,7 @@ body {
     appearance: none;
     width: 28%;
     cursor: pointer;
+    margin-top: 12px;
 }
 
 #stopSorting h1 {
