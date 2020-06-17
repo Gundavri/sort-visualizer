@@ -26,7 +26,7 @@ body {
 }
 
 .toolbarElem {
-    margin-left: 10px;
+    margin: 0px 10px;
     display: flex;
 }
 

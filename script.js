@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 9;
+const TIME_DELAY = 20;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
@@ -81,7 +81,7 @@ function sizeChanged(value){
 }
 
 function speedChanged(value){
-    timeInterval = (21 - value) * TIME_DELAY;
+    timeInterval = (23 - value) * TIME_DELAY;
     console.log(timeInterval);
 }
 
