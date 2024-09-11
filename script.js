@@ -1,6 +1,6 @@
 "use strict";
 
-const TIME_DELAY = 20;
+const TIME_DELAY = 5;
 const INITIAL_SIZE_VALUE = 15;
 const INITIAL_SPEED_VALUE = 10;
 
@@ -81,8 +81,7 @@ function sizeChanged(value){
 }
 
 function speedChanged(value){
-    timeInterval = (23 - value) * TIME_DELAY;
-    console.log(timeInterval);
+    timeInterval = (41 - value) * TIME_DELAY;
 }
 
 function generateClicked(){
@@ -91,6 +90,34 @@ function generateClicked(){
 
 function changeElementsAmount(ar){
     shownArr = [...ar];
+    const childNodesArr = Array.from(wrapper.childNodes);
+    if (childNodesArr.length !== ar.length) {
+        removeAndDrawDivs(ar);
+    } else {
+        for(let i=0; i<ar.length; i++){
+            const childNode = childNodesArr[i];
+            childNode.style.width = (100/(ar.length*2)).toString() + '%';
+            childNode.style.height = (ar[i]/2.2 + 4).toString() + '%';
+            childNode.style.backgroundColor = ELEM_BACKGROUND_COLOR;
+            childNode.style.margin = '1px';
+            childNode.style.order = i.toString();
+            if((arr.length <= 15 && window.innerWidth > 600) || (arr.length < 11)){
+                const elemChildNode = childNode.firstChild
+                childNode.style.textAlign = 'center';
+                elemChildNode.innerText = ar[i].toString();
+                elemChildNode.style.color = ELEM_TEXT_COLOR;
+                elemChildNode.style.margin = '3px';
+                if(window.innerWidth > 600){
+                    elemChildNode.style.fontSize = (25-ar.length).toString() + 'px';
+                } else {
+                    elemChildNode.style.fontSize = (16-ar.length).toString() + 'px';
+                }
+            }
+        }
+    }
+}
+
+function removeAndDrawDivs(ar) {
     removeChildElements();
     for(let i=0; i<ar.length; i++){
         let elem = document.createElement('div');
@@ -186,7 +213,7 @@ function doSetTimeoutMerge(k, i){
         for(let j=indxArrMerge[i][0]; j<=indxArrMerge[i][1]; j++){
             wrapper.childNodes[j].style.backgroundColor = MERGE_COLOR;
         }
-    }, k*timeInterval*10);
+    }, k*timeInterval*6);
 }
 
 function doSetTimeoutQuick(k, [...ar]){
@@ -480,6 +507,7 @@ function stopClicked(){
 
 function onResizeEvent() {
     console.log(prevInnerWidth);
+    this.stopClicked();
     if(window.innerWidth <= 600) {
         sizeInput.max = 50;
         sizeInput.value = 10;
